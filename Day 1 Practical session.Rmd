@@ -1,0 +1,211 @@
+---
+title: "Practical"
+author: "K MWai"
+output: beamer_presentation
+header-includes:  
+- \usetheme{CambridgeUS}
+- \useinnertheme{rounded}
+- \usecolortheme{dolphin}
+- \usefonttheme{professionalfonts}
+- \usepackage{xcolor,soul,hyperref,cite,graphicx,amsmath}
+linkcolor: blue
+urlcolor: blue
+---
+
+\begin{center}
+
+\textbf{Measures of Data}\\      
+
+
+\end{center}
+
+## Exercise. Q1 
+
+The lengths of time, in minutes, that 10 patients waited in a doctor's office before receiving treatment
+were recorded as follows: 5, 11, 9, 5, 10, 15, 6, 10, 5, and 10. Treating the data as a random sample.
+
+Find    
+(a) the mean;     
+(b) the median;     
+(c) the mode;    
+(d) the range;     
+(e) the standard deviation.
+
+
+## Exercise. Q2
+
+In the 2014-15 rugby season, Kemri University had the following score differences for the 13 games it played: 11 49 32 3 6 38 38 30 8 40 31 5 36.     
+
+Find      
+(a) the mean score difference;        
+(b) the median score difference.       
+
+## Solutions. Q1
+\small
+```{r,echo=T,comment=NA}
+time<-c(5, 11, 9, 5, 10, 15, 6, 10, 5,10)
+# a) mean
+mean(time)
+# b) median
+median(time)
+# c) mode
+sort(table(time))
+
+```
+***
+
+## Solutions. Q1
+\small
+```{r,echo=T,comment=NA}
+# d) range
+range(time)
+# e) sd
+sd(time)
+
+```
+
+## Solutions. Q2
+\small
+```{r,echo=T,comment=NA}
+rugby<-c(11,49,32,3,6,38,38,30,8,40,31,5,36)
+# a) mean
+mean(rugby)
+# b) median
+median(rugby)
+# c) mode
+sort(table(rugby))
+
+
+```
+## Solutions. Q2
+\small
+```{r,echo=T,comment=NA}
+# d) range
+range(rugby)
+# e) sd
+sd(rugby)
+
+```
+
+
+* * *
+
+Lets go Plotting 
+
+
+
+
+\begin{center}
+
+\textbf{Graphical Exploration}\\      
+
+
+\end{center}
+
+
+## Exercise. 1
+
+Draw a box plot to show the distribution of the birth weight(bweight) for the different age groups (agegrp).        
+
+- Label the titles i.e y, x, and the main title      
+
+- Change the color of the titles from the default black to a color of your choice.
+
+- Increase the size of axis labels by 20%, main label by 35%
+
+- y scale to start from 500 to 5000 grams         
+
+- Get the median birthweight for the age categories      
+
+- save the graph as a .pdf file to a location of your choice        
+
+
+## Exercise. 2
+
+Draw a Grouped bar plot showing the number of kids in each category of lbw grouping them by sex.      
+
+
+- Label the titles i.e y, x, and the main title      
+
+- Change the color of the titles from the default black to a color of your choice.
+
+- Increase the size of axis labels by 20%, main label by 35%
+
+- Get the median birthweight for the age categories      
+
+- save the graph as a .png file to a location of your choice    
+
+## Solution 1
+
+\small
+```{r}
+library(foreign)
+birth<-read.csv("data/birthweight2.csv")
+attach(birth)
+```
+
+```{r,echo=TRUE,fig.height=3.5,fig.width=6.8,results='hide'}
+pdf("soln1.pdf")
+
+boxplot(bweight~agegrp,las=1,main="Birth weight per age group",
+    ylab="Birth weight(g)",ylim=c(500,5000),col.lab="darkgreen",
+    col.main="red",xlab="Age group",cex.lab=1.2,cex.main=1.35)
+
+dev.off()
+```
+
+## Solution 1 ... 
+ 
+\begin{figure}[htbp!]
+\centering
+ \includegraphics[width=0.77\textwidth,height =0.85\textheight]{soln1}
+\end{figure}
+
+## 
+
+\small
+
+```{r,echo=T,comment=NA}
+
+tapply(bweight,agegrp,median)
+
+
+
+```
+
+##  Solution 2
+
+```{r, echo=F}
+library(knitr)
+tabs<-table(lbw,sex)
+kable(tabs)
+```
+
+
+## Solution 2
+
+\small
+```{r,echo=TRUE,fig.height=3.3,fig.width=6.7,results='hide'}
+pdf("soln2.png")
+
+barplot(tabs,las=1,beside = T, main="Grouped Bar Plot",
+        xlab="Sex",ylab="Counts", border="darkblue",
+        col=c("darkgreen","lightgrey"),cex.lab=1.2,
+        cex.main=1.35,col.lab="darkgreen",col.main="red")
+legend("center",legend=(rownames(tabs)),
+       fill=c("darkgreen","lightgrey"))
+box()
+
+dev.off()
+```
+
+## Solution 2 ... 
+ 
+\begin{figure}[htbp!]
+\centering
+ \includegraphics[width=0.81\textwidth,height =0.85\textheight]{soln2}
+\end{figure}
+
+
+
+
