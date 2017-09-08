@@ -1,0 +1,315 @@
+---
+title: "Graphical Exploration"
+author: "K.Mwai"
+output: beamer_presentation
+header-includes:  
+- \usetheme{CambridgeUS}
+- \useinnertheme{rounded}
+- \usecolortheme{dolphin}
+- \usefonttheme{professionalfonts}
+- \usepackage{xcolor,soul,hyperref,cite,graphicx,amsmath,verbatim,longtable}
+linkcolor: blue
+urlcolor: blue
+---
+
+#### Working Directroy
+? is it set
+
+## Graphical exploration of data.    
+\normalsize
+\begin{itemize}
+\item [-] To have an understanding of you data we normally conduct exploratory data analysis (EDA) which can be graphical or numerical.  
+\item []
+
+\item [-] Primarily EDA is for seeing what the data can tell us before the formal modeling or hypothesis testing task.    
+\item []
+\item [-] Typical graphical techniques used in EDA are:    
+\begin{itemize}
+      \item [-.] Scatter plots,   
+      \item [-.] Box plots,    
+      \item [-.] Bar plots.
+\end{itemize}
+\end{itemize}
+
+
+## Data
+
+```{r,include=FALSE}
+library(foreign)
+birth<-read.csv("data/birthweight2.csv")
+dim(birth)
+```
+\small
+```{r,echo=F,results='asis'}
+library(knitr)
+kable(head(birth[,-7]),format = "markdown",padding = 0,longtable=T)
+```
+
+***
+
+##      
+
+\begin{center}
+
+\textbf{Scatter plot}
+
+\end{center}
+
+## Scatter plot
+\begin{itemize}
+\item [-] Its a useful summary of a set of bivariate data (two variables) 
+\item []
+\item [-] It pairs up values of two quantitative variables in a data set with the aim of giving a good visual picture of the relationship between the two variables.   
+\item []
+\item [-] The resulting pattern indicates the type and strength of the relationship between the two variables.
+\item []
+\item [-] Usually drawn before working out a linear correlation coefficient or fitting a regression line.  
+
+\end{itemize}
+
+## Parts of a graph
+ 
+\begin{figure}[htbp!] 
+\centering
+\includegraphics[width=0.75\textwidth,height =0.85\textheight]{graphParts}
+\end{figure}
+
+
+## Graphical parameters
+-. Help in customizing features of your graphs
+\small
+```{r, eval=FALSE}
+# Text and symbol size.         
+cex = ;change size relative to the (default=1),1.5 is 50% larger,
+      0.5 is 50% smaller.      
+      cex.axis,cex.lab,cex.main       
+# Plotting symbols
+pch = ;0:25, +,*, -,% (default=1, open circle)        
+# Lines
+lty = ;line type (default is solid line), can be dashed, dotted,...     
+lwd = ;line width. 2 is twice as wide.           
+# Colors
+col = ;0:8, col= 1, col="white".    
+       col.axis, col.main, col.lab, bg, fg    
+# Axes 
+xlab="X-axis label",main="title",ylab="y-axix label",
+xlim=c(xmin, xmax)
+```
+
+
+## Scatter plot ... `R code`    
+\small
+
+```{r ,fig.height=5,fig.width=12}
+plot(birth$gestwks,birth$bweight,las=1,xlab="Gestation(weeks)",
+     ylab="Birth weight",col.lab="darkgreen", cex.lab=1.2,
+     main="Weight at Birth",col.main="blue",cex.main=1.4,
+     xlim=c(25,42),col="darkred",type="p", cex=0.9,pch=1)
+```
+
+## Scatter plot ... `R code` 
+\small
+```{r ,fig.height=5,fig.width=12}
+plot(birth$matage,birth$bweight,las=1,xlab="Mother's Age",
+     ylab="Birth weight",col.lab="darkgreen", cex.lab=1.2,
+     main="Weight at Birth",col.main="blue",cex.main=1.4,
+     col="darkred",type="p", cex=0.9,pch=1)
+```
+
+
+##      
+
+
+\begin{center}
+
+\textbf{Box plot}
+
+\end{center}
+
+## Box plot
+\begin{itemize}
+\item [-] Provides a standardized way of displaying the distribution of data. \item []
+
+\item [-] It attempts to provide a visual shape of the data distribution.
+\item []
+\item [-] This is based on some summary measures: min, $1^{st}$ quartile, median, $3^{rd}$ quartile, and max.   
+\item []
+\item [-] Range, IQR, Outliers= $3^*IQR$ above $3^{rd}$ or below $1^{st}$ quartiles.   
+\end{itemize}
+
+\begin{figure}[htbp!]
+\centering
+\includegraphics[width=0.75\textwidth,height =0.35\textheight]{box}
+\caption{Boxplot}
+\end{figure}
+
+[//]: # ## Box plot ...
+[//]: # \begin{figure}[htbp!]
+[//]: # \centering
+[//]: # \includegraphics[width=0.75\textwidth,height =0.85\textheight]{box1}
+[//]: # \caption{Boxplot}
+[//]: # \label{Boxplot}
+[//]: # \end{figure}
+
+## Box plot ...
+\begin{figure}[htbp!]
+\centering
+\includegraphics[width=0.75\textwidth,height =0.55\textheight]{box2}
+\end{figure}
+
+[//]: # ## Box plot ...
+[//]: # \begin{figure}[htbp!]
+[//]: # \centering
+[//]: # \includegraphics[width=0.75\textwidth,height =0.85\textheight]{box3}
+[//]: # \caption{Boxplot}
+[//]: # \label{Boxplot}
+[//]: # \end{figure}
+
+[//]: # ## Box plot ...
+[//]: #\small
+[//]: #```{r,include=FALSE}
+[//]: #attach(birth)
+[//]: #```
+[//]: #```{r,fig.height=5,fig.width=10}
+[//]: #par(mfrow=c(1,2))
+[//]: #boxplot(matage,las=1,main="Mother's Age");
+[//]: #boxplot(gestwks,las=1,main="Gestation")
+[//]: #```
+
+## Box plot ...
+\small
+```{r,include=FALSE}
+attach(birth)
+```
+
+```{r,fig.height=5,fig.width=9}
+boxplot(bweight~sex,las=1,main="Birth weight distribution",
+        ylab="birth weight(g)",ylim=c(500,max(bweight)))
+
+```
+
+[//]: # ## Box plot ...
+[//]: # \small
+[//]: # ```{r,fig.height=5.4,fig.width=6}
+[//]: # boxplot(birth[,c("matage","gestwks")],las=1,
+[//]: #         names=c("Mother's Age","Gestation"))
+[//]: # ```
+
+##
+
+\begin{center}
+
+\textbf{Bar plot}
+
+\end{center}
+
+## Bar plot  
+
+\begin{itemize}
+
+\item [-] Provide a visual presentation of categorical data.
+\item []
+\item [-] Present grouped data with rectangular bars with lengths proportional to the values that they represent.    
+%\item []
+%\item [-] uses either horizontal or vertical bars to show comparisons among categories.    
+\item []
+\item [-] Two types;
+  \begin{itemize}
+    \item [-.] Grouped - presents bars clustered in groups
+    \item [-.] Stacked - shows bars divided into subparts to show cumulative effects.
+  \end{itemize}
+\end{itemize}
+
+## Bar plot ...
+e.g. Cross tabulation of mother's age and birth weight.       
+
+\small
+```{r,include=F}
+library(xtable)
+
+(Count<-table(birth$lbw,birth$agegrp))
+xtable(Count)
+Count1<-round(prop.table(Count, 2),2)*100
+```
+\begin{table}[ht]
+\centering
+\begin{tabular}{lrrrr}
+  \hline
+ & 20-29 yrs & 30-34 yrs & 35-39 yrs & 40+yrs \\ 
+  \hline
+Weight $<$2500 &  15(0.16) &  29(0.12) &  32( 0.12) &   4(0.10) \\ 
+  Normal 2500+ &  77(0.84) & 222(0.88) & 226(0.88) &  36 (0.90) \\ \hline
+   Total    &  92 & 251 & 258 &  40 \\
+   \hline \hline
+\end{tabular}
+\end{table}
+## Bar plot ...`Stacked Bar Plot`
+\tiny
+```{r,fig.height=5,fig.width=10}
+barplot(Count,las=1, main="Stacked Bar Plot",border="darkblue",xlab="Age group",ylab="Counts",
+        col=c("darkgreen","lightgrey"),legend=rownames(Count))
+box();box("figure") 
+```
+
+## Bar plot ... `Grouped Bar Plot`
+\tiny
+```{r,fig.height=4.4,fig.width=8}
+barplot(Count, beside = T, main ="Grouped Bar Plot",xlab="Age group",ylab ="Counts"
+        , border ="red",yaxt='n',col=c("lightblue","lavender"),ylim=c(0,250),
+        legend=rownames(Count),args.legend =list(x ="topright"),space=c(0.05,0.5))
+axis(2, at = seq(0, 250, by = 30), las = 1);box()
+```
+
+
+## Saving plot 
+
+Some useful formats.  
+\small
+```{r, eval=FALSE}
+# Start device driver
+
+pdf("mygraph.pdf")  Produces a PDF file   
+jpeg() jpeg file  
+png()  png file
+bmp()  bmp file
+win.metafile() windows metafile
+postscript() creating PostScript graphics files.   
+
+
+# terminate device
+dev.off()
+```
+## Saving plot ...
+\small
+```{r, eval=FALSE}
+
+pdf("barPlot.pdf",width =, height =)
+
+barplot(Count,las=1, main="Stacked Bar Plot",border="darkblue",
+      xlab="Age group",ylab="Counts",col=c("darkgreen","lightgrey"),
+      legend=rownames(Count))
+box()
+box("figure")
+        
+dev.off()
+
+```
+
+## Links 
+
+[Graphical Parameters](http://www.statmethods.net/advgraphs/parameters.html)     
+[Introduction to Graphics in r](http://bcb.dfci.harvard.edu/~aedin/courses/Bioconductor/2.Plotting.pdf)
+[R Graphs Gallery](http://www.r-graph-gallery.com/all-graphs/)
+
+##
+
+\begin{center}
+
+\textbf{Asante}
+
+\end{center}
+
+
+
+
+
